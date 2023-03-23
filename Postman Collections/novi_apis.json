@@ -13,7 +13,8 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "https://cloudy-rocket-824962.postman.co/settings/team/general"
 			},
 			"response": []
 		}
