@@ -4,5 +4,18 @@
 		"name": "sad",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
-	"item": []
+	"item": [
+		{
+			"name": "New Request",
+			"id": "d50c4d02-8cac-4aaf-bd05-88dbf9660587",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
 }
