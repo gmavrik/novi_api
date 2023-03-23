@@ -7,14 +7,14 @@
 	"item": [
 		{
 			"name": "New Request",
-			"_postman_id": "0825497d-13fb-4eee-9727-475b5bdb2580",
+			"id": "0825497d-13fb-4eee-9727-475b5bdb2580",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "www.novibet.gr/sports/"
+				"url": "www.novibet.gr/"
 			},
 			"response": []
 		}
