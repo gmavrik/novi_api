@@ -13,7 +13,8 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": "https://github.com/settings/tokens"
 			},
 			"response": []
 		}
