@@ -14,7 +14,21 @@
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "www.novibet.com"
+				"url": {
+					"raw": "www.novibet.com?=gma",
+					"host": [
+						"www",
+						"novibet",
+						"com"
+					],
+					"query": [
+						{
+							"key": null,
+							"value": "gma",
+							"type": "text"
+						}
+					]
+				}
 			},
 			"response": []
 		},
