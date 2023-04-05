@@ -15,7 +15,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "www.novibet.com?=gma",
+					"raw": "www.novibet.com?=gmaz",
 					"host": [
 						"www",
 						"novibet",
@@ -23,9 +23,8 @@
 					],
 					"query": [
 						{
-							"key": null,
-							"value": "gma",
-							"type": "text"
+							"key": "",
+							"value": "gmaz"
 						}
 					]
 				}
