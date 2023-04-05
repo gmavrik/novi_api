@@ -43,6 +43,19 @@
 				"url": "novibet.com"
 			},
 			"response": []
+		},
+		{
+			"name": "novibet.gr",
+			"id": "1031e057-a5a2-4cb5-accb-4bcd19a209c9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "www.novibet.gr"
+			},
+			"response": []
 		}
 	]
 }
