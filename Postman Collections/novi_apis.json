@@ -1,20 +1,47 @@
 {
 	"info": {
-		"_postman_id": "a21d98d8-de0a-4bbd-af63-b3d220b8453b",
-		"name": "Novi Api JG",
+		"_postman_id": "3727a721-893f-48ac-9ddc-47c63ed31841",
+		"name": "Novi API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Nasdfasdf2",
-			"id": "dd599a70-92ac-412d-903a-620730a4107b",
+			"name": "Newz",
+			"id": "6947ae05-112e-4013-b5c5-38810cf97352",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "asdf23456"
+				"url": {
+					"raw": "www.novibet.com?=gma",
+					"host": [
+						"www",
+						"novibet",
+						"com"
+					],
+					"query": [
+						{
+							"key": null,
+							"value": "gma",
+							"type": "text"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "novibet.com",
+			"id": "8d38e1c3-8df6-488d-9bb0-049c500979f2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "novibet.com"
 			},
 			"response": []
 		}
