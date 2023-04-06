@@ -1,0 +1,21 @@
+_id: req_5c14370fe89843c5900fa083e8d90c2e
+type: Request
+parentId: wrk_e9324eed8a8f42e8b5c4847c0af4e3dd
+modified: 1680779409971
+created: 1680779387021
+url: www.novibet.com
+name: New API Call
+description: ""
+method: GET
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1680779387021
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
