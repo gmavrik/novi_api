@@ -1,59 +1,20 @@
 {
 	"info": {
-		"_postman_id": "3727a721-893f-48ac-9ddc-47c63ed31841",
-		"name": "Novi API",
+		"_postman_id": "0497c500-e1b8-4b54-807a-aa2ed802a8f5",
+		"name": "New Collection",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Newz",
-			"id": "6947ae05-112e-4013-b5c5-38810cf97352",
+			"name": "New Request",
+			"_postman_id": "0825497d-13fb-4eee-9727-475b5bdb2580",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": {
-					"raw": "www.novibet.com?=mavrikakis",
-					"host": [
-						"www",
-						"novibet",
-						"com"
-					],
-					"query": [
-						{
-							"key": "",
-							"value": "mavrikakis"
-						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "novibet.com",
-			"id": "8d38e1c3-8df6-488d-9bb0-049c500979f2",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "novibet.com"
-			},
-			"response": []
-		},
-		{
-			"name": "novibet.gr",
-			"id": "1031e057-a5a2-4cb5-accb-4bcd19a209c9",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "www.novibet.gr"
+				"url": "www.novibet.gr/"
 			},
 			"response": []
 		}
