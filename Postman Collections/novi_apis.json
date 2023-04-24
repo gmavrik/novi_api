@@ -15,7 +15,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "www.novibet.com?=george",
+					"raw": "www.novibet.com?=mavrikakis",
 					"host": [
 						"www",
 						"novibet",
@@ -24,7 +24,7 @@
 					"query": [
 						{
 							"key": "",
-							"value": "george"
+							"value": "mavrikakis"
 						}
 					]
 				}
