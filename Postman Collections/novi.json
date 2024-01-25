@@ -1,0 +1,22 @@
+{
+	"info": {
+		"_postman_id": "3727a721-893f-48ac-9ddc-47c63ed31841",
+		"name": "Novi API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "New",
+			"_postman_id": "6947ae05-112e-4013-b5c5-38810cf97352",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "www.novibet.com"
+			},
+			"response": []
+		}
+	]
+}

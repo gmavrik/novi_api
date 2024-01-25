@@ -1,0 +1,22 @@
+{
+	"info": {
+		"_postman_id": "0497c500-e1b8-4b54-807a-aa2ed802a8f5",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"_postman_id": "0825497d-13fb-4eee-9727-475b5bdb2580",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "www.novibet.gr/"
+			},
+			"response": []
+		}
+	]
+}
