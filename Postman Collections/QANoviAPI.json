@@ -1,20 +1,921 @@
 {
 	"info": {
-		"_postman_id": "f46308f3-a456-445a-ab2e-2aeeb280e545",
-		"name": "sad",
+		"_postman_id": "16c92c95-70bd-4853-aec2-260d8dafc06e",
+		"name": "ATC - PUSH",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "New Request testttt",
-			"id": "d50c4d02-8cac-4aaf-bd05-88dbf9660587",
+			"name": "Free Spins",
+			"item": [
+				{
+					"name": "Create Freespin",
+					"id": "f8ad7ec2-6192-4280-964d-0a41b98b62f4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"bonus\" : {\r\n    \"type\" : \"multiCcyFreeRounds\",\r\n    \"bonusId\" : \"1\",\r\n    \"rgsCode\" : \"hive\",\r\n    \"betAmount\" : 20,\r\n    \"ccyCode\" : \"EUR\",\r\n    \"numFreeRounds\" : 2,\r\n    \"validUntilUTC\" : \"2023-08-01T11:59:33Z\",\r\n    \"awardValidityInDays\" : 10,\r\n    \"rgsGameIds\" : [ \"{{rgsGameId}}\" ],\r\n    \"igpCode\" : \"{{igpCode}}\"\r\n  },\r\n  \"playerIds\" : [ \"{{playerId}}\" ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{apiBaseUrl}}/rgs/hive/freespinss"
+					},
+					"response": []
+				},
+				{
+					"name": "Freespin Status",
+					"id": "0738f0a1-f1c4-4561-aa2d-0aac0b7e2653",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "{{apiBaseUrl}}/rgs/hive/freespin/1/status"
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Freespin",
+					"id": "02a346e6-cd41-4a5a-8573-a8f2fbbb8d84",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": "{{apiBaseUrl}}/rgs/hive/freespin/1/forfeit"
+					},
+					"response": []
+				},
+				{
+					"name": "Player Freespins Status",
+					"id": "1e2522c9-81ac-4ec5-b2f0-9c653d679e2c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{apiBaseUrl}}/rgs/hive/freespin/player/{{playerId}}"
+					},
+					"response": []
+				}
+			],
+			"id": "b7dd2a9a-f443-4844-89fc-2e19a5e4bb7f"
+		},
+		{
+			"name": "Health Check",
+			"id": "e0f2ff06-12de-4ccc-bcaa-fc7542851d52",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
 			"request": {
 				"method": "GET",
 				"header": [],
-				"url": "https://cloudy-rocket-824962.postman.co/settings/team/general"
+				"url": "{{HostPushGaming}}/healthz"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Account Session",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8e169393-bc6f-4afb-88dc-c12ad7df5a1a",
+						"exec": [
+							"// pm.response.json() and JSON.parse() does not work with big int\r",
+							"// So the solution below helped by adding quotes to big numbers\r",
+							"var responseBigIntsChangedToStrings = pm.response.text().replace(/([^\"\\w-])([-0-9.]{8,100})([^\"\\w-])/g, '$1\\\"$2\\\"$3');\r",
+							"var jsonResponse = [...responseBigIntsChangedToStrings.matchAll(/{.*}/g)];\r",
+							"var jsonData = JSON.parse(jsonResponse);\r",
+							"\r",
+							"pm.environment.set(\"Account_SessionId\", jsonData.sessionId);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "11b7d3b0-5077-457d-b726-fac08830e5f7",
+						"exec": [
+							"console.log(\"Get Session\");\r",
+							"var customer = pm.request.url.variables.get('customerId');\r",
+							"\r",
+							"pm.environment.set(\"PlayerId\", customer);\r",
+							"console.log(pm.environment.get(\"PlayerId\"));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "7e3080bc-4b37-487b-9c5b-7983adb7f97a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{HostSessions}}/api/v1/session/:customerId",
+					"host": [
+						"{{HostSessions}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"session",
+						":customerId"
+					],
+					"variable": [
+						{
+							"id": "274da6ee-af84-4699-ab0f-bb891568f2f0",
+							"key": "customerId",
+							"value": "1007742",
+							"description": "43522,745486,1007742"
+						}
+					]
+				},
+				"description": "Run this for specific player id and auto set ***Account_SessionId*** variable, ***PlayerId*** variable"
+			},
+			"response": [
+				{
+					"id": "ce6ed603-8721-44ac-9dc7-ffc72f723e50",
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host-sessions}}/api/v{{version-sessions}}/session/:customerId",
+							"host": [
+								"{{host-sessions}}"
+							],
+							"path": [
+								"api",
+								"v{{version-sessions}}",
+								"session",
+								":customerId"
+							],
+							"variable": [
+								{
+									"key": "customerId"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n \"customerId\": 69995988,\n \"sessionId\": -864354,\n \"active\": false\n}"
+				},
+				{
+					"id": "c0883e98-6c15-49a2-9213-f65a53bf3f2b",
+					"name": "Bad Request",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host-sessions}}/api/v{{version-sessions}}/session/:customerId",
+							"host": [
+								"{{host-sessions}}"
+							],
+							"path": [
+								"api",
+								"v{{version-sessions}}",
+								"session",
+								":customerId"
+							],
+							"variable": [
+								{
+									"key": "customerId"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n \"type\": \"irure\",\n \"title\": \"ut\",\n \"status\": 68994186,\n \"detail\": \"dolore nulla\",\n \"instance\": \"dolore\",\n \"errors\": [\n  \"irure\",\n  \"fugiat eiusmod\"\n ]\n}"
+				},
+				{
+					"id": "f1fdfd18-7c75-4403-b8ca-0788406d4aa3",
+					"name": "Client Error",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host-sessions}}/api/v{{version-sessions}}/session/:customerId",
+							"host": [
+								"{{host-sessions}}"
+							],
+							"path": [
+								"api",
+								"v{{version-sessions}}",
+								"session",
+								":customerId"
+							],
+							"variable": [
+								{
+									"key": "customerId"
+								}
+							]
+						}
+					},
+					"status": "Unsupported Media Type",
+					"code": 415,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n \"type\": \"irure\",\n \"title\": \"ut\",\n \"status\": 68994186,\n \"detail\": \"dolore nulla\",\n \"instance\": \"dolore\",\n \"errors\": [\n  \"irure\",\n  \"fugiat eiusmod\"\n ]\n}"
+				},
+				{
+					"id": "09959b45-6dfe-4edc-909f-c13cad27669e",
+					"name": "Server Error",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host-sessions}}/api/v{{version-sessions}}/session/:customerId",
+							"host": [
+								"{{host-sessions}}"
+							],
+							"path": [
+								"api",
+								"v{{version-sessions}}",
+								"session",
+								":customerId"
+							],
+							"variable": [
+								{
+									"key": "customerId"
+								}
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n \"type\": \"irure\",\n \"title\": \"ut\",\n \"status\": 68994186,\n \"detail\": \"dolore nulla\",\n \"instance\": \"dolore\",\n \"errors\": [\n  \"irure\",\n  \"fugiat eiusmod\"\n ]\n}"
+				},
+				{
+					"id": "7bde1d30-0f48-4449-b48e-db316010e2af",
+					"name": "Server Error",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host-sessions}}/api/v{{version-sessions}}/session/:customerId",
+							"host": [
+								"{{host-sessions}}"
+							],
+							"path": [
+								"api",
+								"v{{version-sessions}}",
+								"session",
+								":customerId"
+							],
+							"variable": [
+								{
+									"key": "customerId"
+								}
+							]
+						}
+					},
+					"status": "Not Implemented",
+					"code": 501,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"responseTime": null,
+					"body": "{\n \"type\": \"irure\",\n \"title\": \"ut\",\n \"status\": 68994186,\n \"detail\": \"dolore nulla\",\n \"instance\": \"dolore\",\n \"errors\": [\n  \"irure\",\n  \"fugiat eiusmod\"\n ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Launch Url",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1824ee33-129c-498d-b3dc-9771ec3155fe",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"Push_Token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "95a21a46-b741-43c3-ba56-790dde05af5b",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {},
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"playerId\": {{PlayerId}},\r\n  \"accountSessionId\": \"{{Account_SessionId}}\",\r\n  \"mode\": \"REAL\",\r\n  \"rgsGameId\": \"blazeofra1-01\",\r\n  \"realityCheckMins\": 0,\r\n  \"realityCheckMinsElapsed\": 0,\r\n  \"accountUrl\": \"/\",\r\n  \"lobbyUrl\": \"/\",\r\n  \"lang\":\"EN\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HostPushGaming}}/api/CreateLaunchUrl"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Launch Url Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f4eec9a1-bc82-41d4-b815-3190258a20d1",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"Push_Token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "3b4ea6e6-eeb9-4591-823b-cc1df9883370",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {},
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"playerId\": {{PlayerId}},\r\n  \"accountSessionId\": \"{{Account_SessionId}}\",\r\n  \"mode\": \"REAL\",\r\n  \"rgsGameId\": \"blazeofra1-01\",\r\n  \"realityCheckMins\": 0,\r\n  \"realityCheckMinsElapsed\": 0,\r\n  \"accountUrl\": \"/\",\r\n  \"lobbyUrl\": \"/\",\r\n  \"lang\":\"EN\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HostPushGaming}}/api/CreateLaunchUrl"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Launch Url Old",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "65294759-5c12-4b81-8673-55c6b2908750",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"Push_Token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7b0195a3-9027-441f-aa73-e626aca93fde",
+						"exec": [
+							"console.log(\"Get Launch Url\");\r",
+							"var body = JSON.parse(interpolate(pm.request.body.toString()));\r",
+							"\r",
+							"pm.environment.set(\"Push_GameID\", body.rgsGameId);\r",
+							"console.log(pm.environment.get(\"Push_GameID\"));\r",
+							"\r",
+							"function interpolate (value) {\r",
+							"    const {Property} = require('postman-collection');\r",
+							"    return Property.replaceSubstitutions(value, pm.variables.toObject());\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "c88abb7c-3628-4245-bb50-b2d25c3c0076",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {},
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"playerId\": {{PlayerId}},\r\n  \"accountSessionId\": \"{{Account_SessionId}}\",\r\n  \"mode\": \"REAL\",\r\n  \"ccyCode\": \"EUR\",\r\n  \"rgsGameId\": \"blazeofra1-01\",\r\n  \"realityCheckMins\": 0,\r\n  \"realityCheckMinsElapsed\": 0,\r\n  \"lang\": \"en\",\r\n  \"accountUrl\": \"/\",\r\n  \"lobbyUrl\": \"/\",\r\n  \"jurisdiction\": \"GR\",\r\n  \"igpCode\": \"s\",\r\n  \"country\": \"GR\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HostPushGaming}}/rgs/hive/game"
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate",
+			"id": "39e8c4ac-df28-4904-b1ed-0d0274564598",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{Push_Token}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Operator-API-Key",
+						"value": "{{Push_OperatorApiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"ipAddress\" : \"127.0.0.1\",\r\n  \"channel\" : \"PC\",\r\n  \"clientType\" : \"FLASH\",\r\n  \"userAgent\" : \"Mozilla/5.0\"\r\n}"
+				},
+				"url": {
+					"raw": "{{HostPushGaming}}/rgs/hive/player/auth?RgsGameId={{Push_GameID}}",
+					"host": [
+						"{{HostPushGaming}}"
+					],
+					"path": [
+						"rgs",
+						"hive",
+						"player",
+						"auth"
+					],
+					"query": [
+						{
+							"key": "RgsGameId",
+							"value": "{{Push_GameID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "RetrieveWallet",
+			"id": "0aff34cb-c441-47c5-a72e-9b2df01b58f2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{Push_Token}}"
+					}
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Operator-API-Key",
+						"value": "{{Push_OperatorApiKey}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{HostPushGaming}}/rgs/hive/player/{{PlayerId}}/wallet?rgsGameId={{Push_GameID}}",
+					"host": [
+						"{{HostPushGaming}}"
+					],
+					"path": [
+						"rgs",
+						"hive",
+						"player",
+						"{{PlayerId}}",
+						"wallet"
+					],
+					"query": [
+						{
+							"key": "rgsGameId",
+							"value": "{{Push_GameID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Process Transaction Stake",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "26a85c6a-9cb0-4f04-a734-73f86ce33d21",
+						"exec": [
+							"console.log(\"---------------- Push - Stake ----------------\")\r",
+							"var body = JSON.parse(interpolate(pm.request.body.toString()));\r",
+							"\r",
+							"const moment = require('moment');\r",
+							"const uuid = require('uuid');\r",
+							"\r",
+							"const transactionId = uuid.v4();\r",
+							"const timestamp = moment.utc().toJSON();\r",
+							"const roundId = uuid.v4().replace(/-/g,\"\");\r",
+							"\r",
+							"console.log(\"Transaction\",transactionId)\r",
+							"console.log(\"Timestamp\",timestamp)\r",
+							"console.log(\"RoundId\",roundId)\r",
+							"\r",
+							"pm.environment.set(\"Push_TransactionId\", transactionId);\r",
+							"pm.environment.set(\"Push_RoundId\", roundId);\r",
+							"pm.environment.set(\"Push_AmountToCancel\", body.actions[0].amount);\r",
+							"\r",
+							"function interpolate (value) {\r",
+							"    const {Property} = require('postman-collection');\r",
+							"    return Property.replaceSubstitutions(value, pm.variables.toObject());\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "4ac0330b-2967-44e5-a874-fed4a06fe06e",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{Push_Token}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Operator-Api-Key",
+						"value": "{{Push_OperatorApiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"rgsTxnId\" : \"{{Push_TransactionId}}\",\r\n  \"rgsGameId\" : \"{{Push_GameID}}\",\r\n  \"rgsPlayId\" : \"{{Push_RoundId}}\",\r\n  \"rgsRoundId\" : \"{{Push_RoundId}}\",\r\n  \"playerId\" : \"{{PlayerId}}\",\r\n  \"playComplete\" : false,\r\n  \"roundComplete\" : false,\r\n  \"currency\" : \"EUR\",\r\n  \"actions\" : [ {\r\n    \"rgsActionId\" : \"1\",\r\n    \"type\" : \"STAKE\",\r\n    \"amount\" : 1.0\r\n  } ],\r\n  \"txnDeadline\" : \"2025-01-01T00:00:00.000Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HostPushGaming}}/rgs/hive/txn"
+			},
+			"response": []
+		},
+		{
+			"name": "Process Transaction Stake Alt Instance",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "cb3d5348-f61f-42da-a39d-8a1716bf0ab0",
+						"exec": [
+							"console.log(\"---------------- Every Matrix - Debit ----------------\")\r",
+							"const moment = require('moment');\r",
+							"const uuid = require('uuid');\r",
+							"\r",
+							"const transactionId = uuid.v4();\r",
+							"const timestamp = moment.utc().toJSON();\r",
+							"const roundId = uuid.v4().replace(/-/g,\"\");\r",
+							"\r",
+							"console.log(\"Transaction\",transactionId)\r",
+							"console.log(\"Timestamp\",timestamp)\r",
+							"console.log(\"RoundId\",roundId)\r",
+							"\r",
+							"// pm.environment.set(\"Push_TransactionId\", transactionId);\r",
+							"// pm.environment.set(\"Push_RoundId\", roundId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "59c79da8-bed6-4277-b2ca-ec6696521fb9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{Push_Token}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Operator-Api-Key",
+						"value": "{{Push_OperatorApiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"rgsTxnId\" : \"{{Push_TransactionId}}\",\r\n  \"rgsGameId\" : \"{{Push_GameID}}\",\r\n  \"rgsPlayId\" : \"{{Push_RoundId}}\",\r\n  \"rgsRoundId\" : \"{{Push_RoundId}}\",\r\n  \"playerId\" : \"{{PlayerId}}\",\r\n  \"playComplete\" : false,\r\n  \"roundComplete\" : false,\r\n  \"currency\" : \"EUR\",\r\n  \"actions\" : [ {\r\n    \"rgsActionId\" : \"1\",\r\n    \"type\" : \"STAKE\",\r\n    \"amount\" : 1.0\r\n  } ],\r\n  \"txnDeadline\" : \"2025-01-01T00:00:00.000Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HostPushGamingAlt}}/rgs/hive/txn"
+			},
+			"response": []
+		},
+		{
+			"name": "Process Transaction Win",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d3e4e360-0790-4262-9293-2bf08f46312a",
+						"exec": [
+							"console.log(\"---------------- Push Gaming - Win ----------------\")\r",
+							"var body = JSON.parse(interpolate(pm.request.body.toString()));\r",
+							"\r",
+							"const moment = require('moment');\r",
+							"const uuid = require('uuid');\r",
+							"\r",
+							"const transactionId = uuid.v4();\r",
+							"const timestamp = moment.utc().toJSON();\r",
+							"const roundId = uuid.v4().replace(/-/g,\"\");\r",
+							"\r",
+							"console.log(\"Transaction\",transactionId)\r",
+							"console.log(\"Timestamp\",timestamp)\r",
+							"console.log(\"RoundId\",roundId)\r",
+							"\r",
+							"pm.environment.set(\"Push_TransactionId\", transactionId);\r",
+							"pm.environment.set(\"Push_AmountToCancel\", body.actions[0].amount);\r",
+							"\r",
+							"function interpolate (value) {\r",
+							"    const {Property} = require('postman-collection');\r",
+							"    return Property.replaceSubstitutions(value, pm.variables.toObject());\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "e2b609c7-4b5b-48c3-af13-bf45c2dd591e",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{Push_Token}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Operator-Api-Key",
+						"value": "{{Push_OperatorApiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"rgsTxnId\" : \"{{Push_TransactionId}}\",\r\n  \"rgsGameId\" : \"{{Push_GameID}}\",\r\n  \"rgsPlayId\" : \"{{Push_RoundId}}\",\r\n  \"rgsRoundId\" : \"{{Push_RoundId}}\",\r\n  \"playerId\" : \"{{PlayerId}}\",\r\n  \"playComplete\" : true,\r\n  \"roundComplete\" : true,\r\n  \"currency\" : \"EUR\",\r\n  \"actions\" : [ {\r\n    \"rgsActionId\" : \"1\",\r\n    \"type\" : \"WIN\",\r\n    \"amount\" : 10.0\r\n  } ],\r\n  \"txnDeadline\" : \"2025-01-01T00:00:00.000Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HostPushGaming}}/rgs/hive/txn"
+			},
+			"response": []
+		},
+		{
+			"name": "Process Transaction Win Alt Instance",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2ce598fa-bc07-4f0b-95c8-4e85ae47c2fe",
+						"exec": [
+							"console.log(\"---------------- Every Matrix - Debit ----------------\")\r",
+							"const moment = require('moment');\r",
+							"const uuid = require('uuid');\r",
+							"\r",
+							"const transactionId = uuid.v4();\r",
+							"const timestamp = moment.utc().toJSON();\r",
+							"const roundId = uuid.v4().replace(/-/g,\"\");\r",
+							"\r",
+							"console.log(\"Transaction\",transactionId)\r",
+							"console.log(\"Timestamp\",timestamp)\r",
+							"console.log(\"RoundId\",roundId)\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "55bd117f-62b8-4ad9-a7e5-d1b3db7578df",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{Push_Token}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Operator-Api-Key",
+						"value": "{{Push_OperatorApiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"rgsTxnId\" : \"{{Push_TransactionId}}\",\r\n  \"rgsGameId\" : \"{{Push_GameID}}\",\r\n  \"rgsPlayId\" : \"{{Push_RoundId}}\",\r\n  \"rgsRoundId\" : \"{{Push_RoundId}}\",\r\n  \"playerId\" : \"{{PlayerId}}\",\r\n  \"playComplete\" : true,\r\n  \"roundComplete\" : true,\r\n  \"currency\" : \"EUR\",\r\n  \"actions\" : [ {\r\n    \"rgsActionId\" : \"1\",\r\n    \"type\" : \"WIN\",\r\n    \"amount\" : 10.0\r\n  } ],\r\n  \"txnDeadline\" : \"2025-01-01T00:00:00.000Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HostPushGamingAlt}}/rgs/hive/txn"
+			},
+			"response": []
+		},
+		{
+			"name": "Reality Check",
+			"id": "4047272e-3ffd-4189-a466-f494bf45dcc8",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Transaction",
+			"id": "43e50353-5b14-47b7-ac06-06b6f68e5f24",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{Push_Token}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Operator-Api-Key",
+						"value": "{{Push_OperatorApiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"playerId\" : \"{{PlayerId}}\",\r\n  \"playComplete\" : true,\r\n  \"roundComplete\" : true,\r\n  \"reason\" : \"cancelled transaction\",\r\n  \"amount\" : {{Push_AmountToCancel}},\r\n  \"rgsGameId\" : \"{{Push_GameID}}\",\r\n  \"rgsRoundId\" : \"{{Push_RoundId}}\",\r\n  \"currency\" : \"EUR\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HostPushGaming}}/rgs/hive/txn/{{Push_TransactionId}}/cancel"
+			},
+			"response": []
+		},
+		{
+			"name": "Cancel Transaction Alt",
+			"id": "ca405158-8581-4268-a6b1-883b7454f4e6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{Push_Token}}"
+					}
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Operator-Api-Key",
+						"value": "{{Push_OperatorApiKey}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"playerId\" : \"{{PlayerId}}\",\r\n  \"playComplete\" : true,\r\n  \"roundComplete\" : true,\r\n  \"reason\" : \"cancelled transaction\",\r\n  \"amount\" : {{Push_AmountToCancel}},\r\n  \"rgsGameId\" : \"{{Push_GameID}}\",\r\n  \"rgsRoundId\" : \"{{Push_RoundId}}\",\r\n  \"currency\" : \"EUR\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{HostPushGamingAlt}}/rgs/hive/txn/{{Push_TransactionId}}/cancel"
 			},
 			"response": []
 		}
