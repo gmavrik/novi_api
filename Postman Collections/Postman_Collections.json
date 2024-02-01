@@ -1,22 +1,8 @@
 {
 	"info": {
-		"_postman_id": "36fa7820-91aa-47b9-a38a-e0a4cad3383e",
+		"_postman_id": "3e90c16a-4b89-40e5-a8a6-1d9f32a26dac",
 		"name": "TeamQA",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
-	"item": [
-		{
-			"name": "test",
-			"id": "b7a4c07c-6dea-4b27-b894-a7958c0019f4",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "http://www.ggg"
-			},
-			"response": []
-		}
-	]
+	"item": []
 }
