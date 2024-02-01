@@ -4,5 +4,19 @@
 		"name": "TeamQA",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
-	"item": []
+	"item": [
+		{
+			"name": "sfgsfgsgsgs",
+			"id": "35d5b0ac-0c4f-4eed-a65e-3a4d12a30df9",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "fsgsgfsg"
+			},
+			"response": []
+		}
+	]
 }
